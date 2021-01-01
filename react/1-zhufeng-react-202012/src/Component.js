@@ -69,7 +69,7 @@ class Component {
 }
 //TODO 更新类组件
 function updateClassComponent(classInstance, newVdom) {
-    let oldDOM = classInstance.dom;//取出这个类组件上次渲染出来的真实DOM
+    let oldDOM = classInstance.dom; // 取出这个类组件上次渲染出来的真实DOM
     let newDOM = createDOM(newVdom);
     oldDOM.parentNode.replaceChild(newDOM, oldDOM);
     classInstance.dom = newDOM;
