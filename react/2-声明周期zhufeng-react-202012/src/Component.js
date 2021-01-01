@@ -77,16 +77,17 @@ class Component{
        this.updater.addState(partialState,callback);
     }
     forceUpdate(){
+        // todo componentWillUpdate
         if(this.componentWillUpdate){
             this.componentWillUpdate();
         }
         let newRenderVdom = this.render();//重新调用render方法，得到新的虚拟DOM div#counter
         let oldRenderVdom=this.oldRenderVdom;//div#counter
-        debugger
         let oldDOM = oldRenderVdom.dom;//div#counter
         //深度比较新旧两个虚拟DOM
         compareTwoVdom(oldDOM.parentNode,oldRenderVdom,newRenderVdom);
         this.oldRenderVdom=newRenderVdom;
+        // todo componentDidUpdate
         if(this.componentDidUpdate){
             this.componentDidUpdate();
         }
