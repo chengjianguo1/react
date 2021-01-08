@@ -80,6 +80,7 @@ function mountClassComponent(vdom){
     let {type,props}= vdom;
     //创建类的实例
     let classInstance = new type(props);
+    // todo 把context映射到实例上
     if(type.contextType){
         classInstance.context = type.contextType.Provider._value;
     }
