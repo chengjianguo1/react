@@ -5,7 +5,8 @@
 function createHashHistory(){
     let action;
     let listeners = [];
-    let historyStack = [];
+    let historyStack = [];//历史栈
+    let historyIndex = -1;//栈指针
     let state;
     function listen(listener){
         listeners.push(listener);
@@ -18,16 +19,43 @@ function createHashHistory(){
     window.addEventListener('hashchange',()=>{
         let pathname = window.location.hash.slice(1);//user
         //把新的action和pathname赋值给history.action history.location
-        Object.assign(history,{action,location:{pathname}});
+        Object.assign(history,{action,location:{pathname,state}});
+        if(!action ||action === 'PUSH'){
+            // page1 page2 page3 page4
+            historyStack[++historyIndex] = history.location;
+        }else if(action === 'REPLACE'){
+            historyStack[historyIndex] = history.location;
+        }
         listeners.forEach(listener=>listener(history.location));
     });
-    function push(pathname){
+    function push(pathname,nextState){
         action='PUSH';
+        if(typeof pathname === 'object'){
+            state = pathname.state;
+            pathname = pathname.pathname;
+        }else{
+            state=nextState;
+        }
         //给hash赋值的是不需要加#，取的是带#
         window.location.hash = pathname;
     }
-    function go(){
-
+    function replace(pathname,nextState){
+        action='REPLACE';
+        if(typeof pathname === 'object'){
+            state = pathname.state;
+            pathname = pathname.pathname;
+        }else{
+            state=nextState;
+        }
+        //给hash赋值的是不需要加#，取的是带#
+        window.location.hash = pathname;
+    }
+    function go(n){
+        action = 'POP';
+        historyIndex +=n;
+        let nextLocation = historyStack[historyIndex];
+        state = nextLocation.state;
+        window.location.hash = nextLocation.pathname;
     }
     function goBack(){
         go(-1);
@@ -44,8 +72,10 @@ function createHashHistory(){
        goBack,
        goForward,
        push,
+       replace,
        listen,
     }
+    action = 'PUSH';
     window.location.hash = window.location.hash?window.location.hash.slice(1):'/';
     return history;
 }

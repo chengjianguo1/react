@@ -251,3 +251,120 @@ state 在页面刷新会丢失吗 ? 不会?
 你点浏览器的刷新就会消失 刷 新也不会?
 Vc
 query 和 params 都有? 有的
+
+
+刷新页面 历史栈 不就清空了 
+hash会清空 browser不会browser是把state放在window.history上面的存着的
+
+记就记了
+传过来的刷新会消失吗 
+Tony
+Browser是放在哪里了 window.history
+月下吴刚
+刷新的时候，stack 会清空? 
+14:28
+漂
+24的history那里来的 
+666
+不用监听popstate事件吗 
+136****2778
+这里action为啥不用默认push 
+136****2778
+‘PUSH’ 
+Vc
+没监听popstate  
+记就记了
+是不是要用addEventListener啊 
+天道酬勤
+AOP 思路了 
+月下吴刚
+为什么要 new 一个 自定义事件？ 
+记就记了
+这样就可以监听了 
+136****2778
+55行的location不是新的location吗 应该用之前的location吧？ 
+Tony
+45行的pushState也是原生的方法吗 
+古德猫宁
+源码也是重写push吗 
+
+
+有点太快了。。这个browser history 
+Caption
+hash那个回退的时候有bug，不能在任意情况下回退 
+青衣
+休息一下？ 
+136****2778
+那react的路由用的是哈希还是browser？ 
+记就记了
+两个供你选择，想用哪个用哪个 
+666
+hash只有一种 hashchange
+hash模式，点浏览器的前进后退也需要监听一下popState事件吧？ 
+popstate pushstate
+Tony
+hashchange里没有pop和push只有hashchange 那还需要设置action干什么 
+Vc
+为什么写new costomEvent 
+136****2778
+42行的location不是新的location吗 应该用之前的location吧？  
+开心麻花
+那直接在js 执行pushState就没法 跳转路由了 必须用push方法？ 是的
+
+zero
+跳转到未定义的路由的情况有做处理吗 
+136****2778
+不是43行 
+
+go -1 == 返回 <- 
+136****2778
+是浏览器返回还是我们的按钮返回？ 
+136****2778
+那返回之前的页面不应该用之前的pathName吗？用现在的pathname怎么返回？ 
+
+栈顶的最新的就对了 
+136****2778
+他是页面渲染完后才执行onpopstate的？ 
+Caption撤回了一条消息
+Caption
+点浏览器的返回不执行 popstate ？
+ 
+zero
+replace没写 
+张润钊-2625
+提交一下下代码 
+
+ 但是Provider后面渲染不是直接返回this.props.children， 那不就变成多个根，多个虚拟节点了 
+
+
+ 17:00
+古德猫宁
+6啊 
+136****2778
+computedMatcht能存多久 
+学习
+Route隔着switch也能拿到router的provider？ 不能
+136****2778
+刷新页面可以继续存吗》？ 重新匹配
+
+
+**2778撤回了一条消息
+136****2778
+是先swtich.js再执行router.js吗 
+月下吴刚
+面试问优化 怎么回答？ 
+学习
+Route隔着switch也能拿到router的provider？value
+Route的12行拿的router的provider吧 
+Tony
+能拿到。。 
+Tony
+这是context 啊 之前刚讲了 
+
+
+天道酬勤
+如果有n个Route，利用switch组件，
+刚才那个React.Children.forEach  其实还是在n个Route里面找到一个匹配组件，
+react官方这样写，目的是什么？ 
+Tony
+还是需要把path写全 

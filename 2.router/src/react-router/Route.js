@@ -1,5 +1,6 @@
 import React from 'react';
 import RouterContext from './RouterContext';
+import matchPath from './matchPath';
 /**
  * 1.获取到context中的值
  * 2.匹配路由规则 里的path 是否和当前地址中的url地址是否相等
@@ -9,12 +10,13 @@ class Route extends React.Component{
     static contextType = RouterContext
     render(){
        const {history,location} = this.context;
-       const {path,component:RouteComponent} = this.props;
-       const match = location.pathname === path;
+       const {component:RouteComponent,computedMatch} = this.props;
+       const match = computedMatch?computedMatch:matchPath(location.pathname,this.props);
        let renderElement = null;
-       let routeProps = {history,location,match};
+       let routeProps = {history,location};
        if(match){
-          renderElement = <RouteComponent {...routeProps}/>;
+         routeProps.match = match
+         renderElement = <RouteComponent {...routeProps}/>;
        }
        return renderElement;
     }

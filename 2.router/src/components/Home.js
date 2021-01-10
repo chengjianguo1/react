@@ -4,6 +4,7 @@ const Home = (props)=>{
         <div>
             Home
             <button onClick={()=>props.history.push('/user',{name:'用户管理'})}>跳到/user</button>
+            <button onClick={()=>props.history.push({pathname:'/user',state:{name:'用户管理'}})}>跳到/user</button>
         </div>
     )
 }
