@@ -10,13 +10,24 @@ class Route extends React.Component{
     static contextType = RouterContext
     render(){
        const {history,location} = this.context;
-       const {component:RouteComponent,computedMatch} = this.props;
+       const {component:RouteComponent,computedMatch,render,children} = this.props;
        const match = computedMatch?computedMatch:matchPath(location.pathname,this.props);
        let renderElement = null;
        let routeProps = {history,location};
-       if(match){
-         routeProps.match = match
-         renderElement = <RouteComponent {...routeProps}/>;
+       if(match){//如果路径匹配才会进来 ，读这二个属性
+         //路由属性 如果一个组件是Route或者说路由组件渲染的，它们routeProps={}
+         routeProps.match = match;
+         if(RouteComponent){
+          renderElement = <RouteComponent {...routeProps}/>;
+         }else if(render){
+          renderElement=render(routeProps);//返回一个React元素,或者说虚拟DOM
+         }else if(children){
+          renderElement=children(routeProps);
+         }
+       }else{
+         if(children){
+          renderElement=children(routeProps);
+         }
        }
        return renderElement;
     }

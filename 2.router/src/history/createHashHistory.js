@@ -16,7 +16,8 @@ function createHashHistory(){
             listeners=listeners.filter(item=>item!==listener);
         }
     }
-    window.addEventListener('hashchange',()=>{
+    //如果本来就是/user，修改为/user，hash没有变，所以也不会触发hashChange事件
+    const hashChange = ()=>{
         let pathname = window.location.hash.slice(1);//user
         //把新的action和pathname赋值给history.action history.location
         Object.assign(history,{action,location:{pathname,state}});
@@ -27,7 +28,8 @@ function createHashHistory(){
             historyStack[historyIndex] = history.location;
         }
         listeners.forEach(listener=>listener(history.location));
-    });
+    };
+    window.addEventListener('hashchange',hashChange);
     function push(pathname,nextState){
         action='PUSH';
         if(typeof pathname === 'object'){
@@ -76,7 +78,11 @@ function createHashHistory(){
        listen,
     }
     action = 'PUSH';
-    window.location.hash = window.location.hash?window.location.hash.slice(1):'/';
+    if(window.location.hash){
+        hashChange();
+    }else{
+        window.location.hash="/";
+    }
     return history;
 }
 
