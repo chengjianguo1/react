@@ -584,3 +584,96 @@ Tony
 136****2778
 我意思是进来matchundefined 最终也是没有合并 
 
+
+
+月下吴刚
+组件里面用 {} 包裹一个函数，是表示组件嵌套吗？ 
+136****2778
+self是什么 
+136****2778
+onMount是生命周期函数？没见过 
+20:32
+月下吴刚
+message 方法哪里来的？ 
+136****2778撤回了一条消息
+136****2778
+release在哪里？ 
+Tony撤回了一条消息
+开心麻花
+allow这里会阻塞等待确认？? 
+
+
+
+allow这里会阻塞等待确认？? 
+Caption
+lifecyle什么时候卸载 ????
+学习
+Lifecycle的props 
+136****2778撤回了一条消息
+136****2778
+那里没有一个叫“release"啊  
+Tony
+didmout的时候会调用onMount 然后添加一个release属性 
+
+
+
+月下吴刚
+这个弹窗不是异步的吧？不能 then  同步的
+136****2778
+为啥要输入框输入才有lifeCycle的dom？ 
+
+
+Tony
+有值了 length> 0 会setstate。然后blocking 为true，lifecycle就会渲染 
+Tony
+如果值删光了的话 不用跳转 也应该也会卸载吧 
+古德猫宁
+对对对 
+Caption
+多个promot会不会有问题呀 
+
+
+
+react 里面一切皆组件吗？ 
+Tony
+哦哦  
+Tony
+对 这样的话应该没影响 
+136****2778
+那为啥有值return的dom结构才出来？》 
+
+
+删光Promp应该一直都在吧  只是lifeCycle 卸载了 
+
+
+
+20:52
+Caption
+不是一个router只有一个history，那不是一个router里只有最后一个promot的message生效 是的
+20:58
+学习
+结尾可选的/ strict 
+
+sensitive 大小写敏感
+strict 是否允许出现结束 的可选 /
+end 是否结束
+
+useContext 哪来的 官方提交的hooks
+可以接收一个context对象，返回一个此context的value
+Tony
+react官方 
+Tony
+感觉这些东西的实现全是依赖context这个概念 这个东西的本质就是一个变量，只不过是在各种不同的组件里指向了同一个变量，如果这个变量改变了 自然而然渲染组件的时候就会获得更新 
+开心麻花
+useContext我们自己实现了吗 
+Tony
+而指向context变量的过程被各种库封装了 
+小行星
+看一下那个match.params,忘了怎么来着了 
+ute 
+学习
+return path?matchPath(location.pathname,path):match;
+Route里也重新计算了match 
+
+
+
