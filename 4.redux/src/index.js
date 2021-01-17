@@ -12,7 +12,7 @@ ReactDOM.render(
 import store from './store';
 //store.dispatch只能传普通对象
 store.subscribe(()=>console.log(store.getState()));
-debugger
+
 
 store.dispatch(function(){
     setTimeout(()=>{
