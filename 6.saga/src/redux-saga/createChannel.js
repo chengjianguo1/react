@@ -24,8 +24,9 @@ function createChannel(){
         currentTakers.forEach(taker=>{
             //taker就是我们的next函数
             if(taker.actionType === action.type){
-                taker.cancel();
-                taker(action);
+                //taker默认只执行一次，可以要取消掉
+                taker.cancel();//taker就next
+                taker(action);//next函数
             }
         });
     }

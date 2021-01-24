@@ -20,16 +20,44 @@ export function fork(saga){
  */
 export function takeEvery(actionType,saga){
   function * takeEveryHelper(){
+    //写了一个死循环，
       while(true){
-        yield take(actionType);//等待一个新的动作类型
-        yield fork(saga);//开启一个新的子进程执行saga
+        let action = yield take(actionType);//等待一个新的动作类型
+        yield fork(function*(){
+          yield saga(action);
+        });//开启一个新的子进程执行saga
       }
   }
   //会开一个新的子进程执行 takeEveryHelper这个saga
+  //FORK的effect
   return fork(takeEveryHelper);
 }
 
+export function call(fn,...args){
+  return {type:effectTypes.CALL,fn,args}
+}
 
-
-
-// /saga最难以理解的一部分
+export function cps(fn,...args){
+  return {type:effectTypes.CPS,fn,args}
+}
+/**
+ * 
+ * @param {*} effects 是一个iterator的数组
+ */
+export function all(effects){
+  return {type:effectTypes.ALL,effects};
+}
+export function cancel(task){
+ return {type:effectTypes.CANCEL,task};
+}
+export function select(selector){
+  return {type:effectTypes.SELECT,selector};
+ }
+function delayP(ms){
+  const promise = new Promise(resolve=>{
+    setTimeout(resolve,ms);
+  });
+  return promise;
+}
+export const delay = call.bind(null,delayP);
+//delay(ms)= call(delayP,ms);

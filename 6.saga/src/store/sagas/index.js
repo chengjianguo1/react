@@ -1,33 +1,31 @@
-import {take,put,takeEvery} from '../../redux-saga/effects';
+import {take,put,takeEvery,all,fork,cancel,delay} from '../../redux-saga/effects';
+//import * as effects from '../../redux-saga/effects';
+//import {take,put,takeEvery,all,fork,cancel} from 'redux-saga/effects';
 import * as types from '../action-types';
-import watcher_add from './counter';
-//rootSaga如何执行的，如何启动，如何运行的，在运行中是如何处理和响应接收到的指令的?
-//worker saga
 
-//根saga
-//我们项目再大，我们的根rootSaga只有一个
-//all的意思是同时启动多个saga，要等所有的saga 全部完成后当前的rootSaga才会完成
-//类似Promise.all
+function * add(){
+    while(true){
+        yield delay(1000);
+        yield put({type:types.ADD});//调用store.dispatch 派发命令 并不会
+        //store.dispatch({type:types.ADD});
+    }
+}
+function * addWatcher(){
+    //开启一个新的子进程去执行add,返回一个task任务对象
+    const task = yield fork(add);
+    //等待有个向仓库派发STOP_ADD这个动作，如果有人派发了，就继续 向下执行
+    yield take(types.STOP_ADD);
+    //取消任务执行
+    yield cancel(task);//task.cancel()
+    console.log('====================================');
+    console.log('父saga继续向前');
+    console.log('====================================');
+}
+
 function *rootSaga(){
-     yield watcher_add();
+    yield addWatcher();
 }
 
 export default rootSaga;
-//rootSaga只负责用takeevery用非阻塞的方式去创建监听这样吗 
-/* function *rootSaga(){
-    for(let i=0;i<3;i++){
-        //等待有人向仓库派发一个ASYNC_ADDd这样的命令,等到了就继续执行，等不到就卡在这里
-        //take只等一次。
-        //它们都是普通函数，执行后会返一个普通的指令对象
-        //这个对像相当于一个普通对象的指令，指挥saga中间件做一些事情
-        yield take(types.ASYNC_ADD);
-        //向仓库派发一个动作，让仓库调用store.dispatch({type:types.ADD});
-        //yield put({type:types.ADD});
-        yield add();//产出了一个iterator
-        console.log('rootSaga next');
-    }
- } */
- /**
-  * rootSaga 、 watcherSaga、workerSaga这里怎么对应 
-
-  */
+//那如果父saga取消 子saga什么状态？ 现在这个版本里保持原状
+//但其实，应该是你把父saga取消，所有的子 saga也应该取消
