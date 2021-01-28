@@ -6,35 +6,38 @@ import Lifecycle from './Lifecycle';
  * @param {*} when 布尔值表示要不要阻止跳转
  * @param {*} message 它是一个函数，表示要阻止的时候显示什么的提示信息
  */
-function Prompt({when,message}){
-  return (
-      <RouterContext.Consumer>
-          {
-              value=>{
-                  if(!when)return null;
-                  return (
-                      <Lifecycle
-                        onMount={lifecycleInstance=>{
-                            lifecycleInstance.release = value.history.block(message);
-                        }}
-                        onUnmount={lifecycleInstance=>lifecycleInstance.release()}
-                      />
-                  )
-              }
-          }
-      </RouterContext.Consumer>
-  )
+function Prompt({ when, message }) {
+    return (
+        <RouterContext.Consumer>
+            {
+                value => {
+                    if (!when) return null;
+                    return (
+                        // todo lifecycleInstance 是谁？
+                        // todo 答案在 Lifecycle中， Lifecycle => this.props.onMount&&this.props.onMount(this);
+                        // lifecycleInstance 就是 Lifecycle 的实例
+                        <Lifecycle
+                            onMount={lifecycleInstance => {
+                                lifecycleInstance.release = value.history.block(message);
+                            }}
+                            onUnmount={lifecycleInstance => lifecycleInstance.release()}
+                        />
+                    )
+                }
+            }
+        </RouterContext.Consumer>
+    )
 }
-class ClassPrompt extends React.Component{
+class ClassPrompt extends React.Component {
     static contextType = RouterContext;
-    componentDidMount(){
+    componentDidMount() {
         this.release = this.context.history.block(this.props.message);
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log('componentWillUnmount');
         this.release();
     }
-    render(){
+    render() {
         return null;
     }
 }

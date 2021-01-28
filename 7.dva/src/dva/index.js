@@ -39,6 +39,7 @@ function dva() {
     sagas.forEach(sagaMiddleware.run);
     ReactDOM.render(
       <Provider store={store}>
+        {/* 这里就是 index.js (api) */}
         {app._router({ history })}
       </Provider>,
       document.querySelector(root)
