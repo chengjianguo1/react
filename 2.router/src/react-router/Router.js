@@ -23,7 +23,7 @@ class Router extends React.Component{
             location:this.state.location,//用来传递给Route用来判断路由是否匹配的
             history:this.props.history,//用来让组件来跳转路径的
             match:Router.computeRootMatch(this.state.location.pathname)
-        }
+        } 
         return (
             <RouterContext.Provider value={value}>
                 {this.props.children}

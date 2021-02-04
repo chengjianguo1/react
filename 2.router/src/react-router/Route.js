@@ -11,6 +11,7 @@ class Route extends React.Component {
   render() {
     const { history, location } = this.context;
     const { component: RouteComponent, computedMatch, render, children } = this.props;
+    // todo Route 的 matchPath 处理路由逻辑的跳转处理
     const match = computedMatch ? computedMatch : matchPath(location.pathname, this.props);
     let renderElement = null;
     let routeProps = { history, location };
