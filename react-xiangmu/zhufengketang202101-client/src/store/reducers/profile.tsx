@@ -23,7 +23,9 @@ function reducer(state:ProfileState=initialState,action:AnyAction):ProfileState{
         return {...state,loginState:LOGIN_TYPES.UNLOGIN,user:null,error:action.payload};
       }
     case types.LOGOUT:  
-    return {...state,loginState:LOGIN_TYPES.UNLOGIN,user:null,error:null};
+      return {...state,loginState:LOGIN_TYPES.UNLOGIN,user:null,error:null};
+    case types.CHANGE_AVATAR:
+      return {...state,user:{...state.user,avatar:action.payload}};  
   default:
     return state;
   }

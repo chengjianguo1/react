@@ -29,7 +29,6 @@ const transitionStyles:TransitionStyles = {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function HomeHeader(props: Props) {
-  console.log('HomeHeader.props', props);
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const setCurrentCategory = (event: React.MouseEvent<HTMLUListElement>) => {
     const target: HTMLUListElement = event.target as HTMLUListElement;//获取事件源对象

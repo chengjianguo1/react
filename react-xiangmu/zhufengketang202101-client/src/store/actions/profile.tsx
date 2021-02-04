@@ -46,6 +46,12 @@ const actions = {
       dispatch({type:types.LOGOUT});//派发 一个退出的action
       dispatch(push('/login'));
     }
+  },
+  changeAvatar(avatar:string){
+    return {
+      type:types.CHANGE_AVATAR,
+      payload:avatar
+    }
   }
 }
 export default actions;
