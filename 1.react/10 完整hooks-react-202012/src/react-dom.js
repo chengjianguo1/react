@@ -71,7 +71,6 @@ export function render(vdom, container) {
     }
 }
 export function useMemo(factory, deps) {
-    debugger
     if (hookStates[hookIndex]) {
         let [lastMemo, lastDeps] = hookStates[hookIndex];
         let same = deps.every((item, index) => item === lastDeps[index]);
@@ -90,7 +89,6 @@ export function useMemo(factory, deps) {
     }
 }
 export function useCallback(callback, deps) {
-    debugger
     if (hookStates[hookIndex]) {
         let [lastCallback, lastDeps] = hookStates[hookIndex];
         let same = deps.every((item, index) => item === lastDeps[index]);
@@ -124,7 +122,7 @@ export function useReducer(reducer, initialState) {
         if (reducer) {
             nextState = reducer(nextState, action);
         }
-        
+        // todo action 为 对象的时候 nextState = action
         //如果老状态和新状态不相等，用的是浅比较
         if (lastState !== nextState) {
             hookStates[currentIndex] = nextState;
@@ -275,12 +273,14 @@ export function compareTwoVdom(parentDOM, oldVdom, newVdom, nextDOM) {
         //如果老有,新没有,意味着此节点被删除了  
     } else if (oldVdom && !newVdom) {
         let currentDOM = findDOM(oldVdom);
-        if (currentDOM)
+        if (currentDOM) {
             parentDOM.removeChild(currentDOM);
+        }
         if (oldVdom.classInstance && oldVdom.classInstance.componentWillUnmount) {
             oldVdom.classInstance.componentWillUnmount();
         }
         // hookStates[hookIndex++] = [destroyFunction,dependencies];
+        // todo hooks 在销毁的时候，也会执行
         if (hookStates[hookIndex]) {
             let [destroyFunction] = hookStates[hookIndex];
             destroyFunction && destroyFunction();
